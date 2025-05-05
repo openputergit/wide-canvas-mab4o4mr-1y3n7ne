@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialBet - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-green: #39FF14;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #1A1A1A;
+        }
+
+        .glass-card {
+            background: rgba(42, 42, 42, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(57, 255, 20, 0.18);
+            border-radius: 8px;
+        }
+
+        .neon-border {
+            box-shadow: 0 0 5px var(--neon-green),
+                        inset 0 0 5px var(--neon-green);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .active-tab {
+            border-bottom: 2px solid var(--neon-green);
+            box-shadow: 0 2px 5px var(--neon-green);
+        }
+
+        .spin-button:hover {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+    <!-- Header -->
+    <header class="fixed top-0 w-full h-[60px] glass-card z-50">
+        <div class="container mx-auto px-4 h-full flex justify-between items-center">
+            <h1 class="text-2xl font-bold neon-text">SocialBet</h1>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm">250 MON</span>
+                <div class="w-8 h-8 rounded-full bg-gray-600"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="fixed top-[60px] w-full h-[40px] glass-card z-40">
+        <div class="container mx-auto px-4 h-full">
+            <div class="flex justify-around items-center h-full">
+                <button class="px-4 py-2 active-tab">Bet Now</button>
+                <button class="px-4 py-2">Leaderboard</button>
+                <button class="px-4 py-2">Friend Zone</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-[120px] pb-[70px]">
+        <!-- Daily Free Spin -->
+        <section class="glass-card p-6 mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold mb-2">Daily Free Spin!</h2>
+                    <p class="text-gray-300">Win up to 50 MON</p>
+                </div>
+                <button class="spin-button bg-[#39FF14] text-black px-6 py-2 rounded-lg font-bold hover:bg-opacity-80 transition-all">
+                    Spin Now
+                </button>
+            </div>
+        </section>
+
+        <!-- Active Pools -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold mb-4">Active Pools</h2>
+            <div class="space-y-4" id="poolsList">
+                <!-- Pool cards will be generated here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 w-full h-[50px] glass-card">
+        <div class="container mx-auto px-4 h-full flex justify-center items-center">
+            <p class="text-sm text-gray-400">Powered by Monad Testnet</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data for pools
+        const pools = [
+            { id: 1, name: "Pool #1", pot: 500, timeLeft: "2h" },
+            { id: 2, name: "Pool #2", pot: 1000, timeLeft: "5h" },
+            { id: 3, name: "Pool #3", pot: 750, timeLeft: "1h" },
+            { id: 4, name: "Pool #4", pot: 250, timeLeft: "30m" }
+        ];
+
+        // Generate pool cards
+        const poolsList = document.getElementById('poolsList');
+        pools.forEach(pool => {
+            const poolCard = document.createElement('div');
+            poolCard.className = 'glass-card p-4 flex justify-between items-center';
+            poolCard.innerHTML = `
+                <div>
+                    <h3 class="font-bold">${pool.name}</h3>
+                    <p class="text-sm text-gray-300">${pool.pot} MON Pot</p>
+                    <span class="text-xs text-gray-400">Ends in ${pool.timeLeft}</span>
+                </div>
+                <button class="bg-[#39FF14] text-black px-6 py-2 rounded-lg font-bold hover:bg-opacity-80 transition-all">
+                    Join
+                </button>
+            `;
+            poolsList.appendChild(poolCard);
+        });
+
+        // Spin functionality
+        document.querySelector('.spin-button').addEventListener('click', function() {
+            this.disabled = true;
+            this.textContent = 'Spinning...';
+            setTimeout(() => {
+                const win = Math.floor(Math.random() * 50) + 1;
+                alert(`Congratulations! You won ${win} MON!`);
+                this.disabled = false;
+                this.textContent = 'Spin Now';
+            }, 2000);
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
